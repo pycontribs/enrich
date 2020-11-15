@@ -1,5 +1,4 @@
 """Tests for rich module."""
-import subprocess
 import sys
 
 from enrich.console import Console

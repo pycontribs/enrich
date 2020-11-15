@@ -79,15 +79,6 @@ jobs:
         name: logs.zip
         path: .tox/**/log/
 
-  alpine:
-    name: alpine
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v1
-      - name: Run docker build
-        run: docker build .
-
   unit:
     name: >-
       py${{ matrix.python-version }}@${{ matrix.os }}
@@ -135,14 +126,10 @@ jobs:
       TOX_PARALLEL_NO_SPINNER: 1
 
     steps:
-    - uses: actions/checkout@master
-    - name: Get history and tags for SCM versioning to work
-      run: |
-        git fetch --prune --unshallow
-        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # we need full depth and tags for versioning
     - name: Set up stock Python ${{ matrix.python-version }} from GitHub
-      if: >-
-        !endsWith(matrix.python-version, '-dev')
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
