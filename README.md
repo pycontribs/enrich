@@ -1,7 +1,7 @@
 # enrich
 
-Enriched extends rich functionality with a set of changes that were not
-accepted as contributions to rich itself.
+Enriched extends [rich](https://pypi.org/project/rich/) library functionality
+with a set of changes that were not accepted to rich itself.
 
 ## Console with redirect support
 
