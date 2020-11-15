@@ -20,3 +20,17 @@ sys.write("foo")
 # this assert would have passed without redirect=True
 assert console.export_text() == "foo"
 ```
+
+## Console with implicit soft wrapping
+
+If you want to produce fluid terminal output, one where the client terminal
+decides where to wrap the text instead of the application, you can now
+tell the Console constructor the soft_wrap preference.
+
+```python
+from enrich.console import Console
+import sys
+
+console = Console(soft_wrap=True)
+console.print(...)  # no longer need to pass soft_wrap to each print
+```

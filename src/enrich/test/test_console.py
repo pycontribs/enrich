@@ -30,3 +30,12 @@ def test_rich_console_ex_ansi() -> None:
 
     html = console.export_html(clear=False)
     assert "#008000" in html
+
+
+def test_console_soft_wrap() -> None:
+    """Assures long prints on console are not wrapped when requested."""
+    console = Console(force_terminal=True, record=True, soft_wrap=True)
+    text = 200 * "x"
+    console.print(text)
+    result = console.export_text()
+    assert text in result

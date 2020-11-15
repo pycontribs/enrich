@@ -49,14 +49,33 @@ class FileProxy(io.TextIOBase):
 
 
 class Console(rich_console.Console):
-    """Extends rich Console class."""
+    """Extends rich Console class.
+
+    redirect: True
+    soft_wrap: False
+    """
 
     def __init__(self, *args: str, **kwargs: Any) -> None:
         self.redirect = kwargs.get("redirect", False)
         if "redirect" in kwargs:
             del kwargs["redirect"]
+
+        self.soft_wrap = kwargs.get("soft_wrap", False)
+        if "soft_wrap" in kwargs:
+            del kwargs["soft_wrap"]
+
         super().__init__(*args, **kwargs)
         self.extended = True
         if self.redirect:
             sys.stdout = FileProxy(self, sys.stdout)  # type: ignore
             sys.stderr = FileProxy(self, sys.stderr)  # type: ignore
+
+    # https://github.com/python/mypy/issues/4441
+    def print(self, *args, **kwargs) -> None:  # type: ignore
+        """Print override that respects user soft_wrap preference."""
+        # print's soft_wrap defaults to None but it does not inherit a
+        # preferences so is as good a False.
+        # https://github.com/willmcgugan/rich/pull/347/files
+        if self.soft_wrap and "soft_wrap" not in kwargs:
+            kwargs["soft_wrap"] = self.soft_wrap
+        super().print(*args, **kwargs)
