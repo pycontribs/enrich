@@ -4,6 +4,7 @@ import sys
 from typing import IO, Any, List, Union
 
 import rich.console as rich_console
+from rich.ansi import AnsiDecoder
 
 
 # Base on private utility class from
@@ -78,4 +79,12 @@ class Console(rich_console.Console):
         # https://github.com/willmcgugan/rich/pull/347/files
         if self.soft_wrap and "soft_wrap" not in kwargs:
             kwargs["soft_wrap"] = self.soft_wrap
+
+        # Currently rich is unable to render ANSI escapes with print so if
+        # we detect their presence, we decode them.
+        # https://github.com/willmcgugan/rich/discussions/404
+        if "\033" in args[0]:
+            text = format(*args) + "\n"
+            decoder = AnsiDecoder()
+            args = list(decoder.decode(text))  # type: ignore
         super().print(*args, **kwargs)
