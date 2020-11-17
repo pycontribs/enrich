@@ -39,3 +39,18 @@ def test_console_soft_wrap() -> None:
     console.print(text)
     result = console.export_text()
     assert text in result
+
+
+def test_console_print_ansi() -> None:
+    """Validates that Console.print() with ANSI does not make break them."""
+    console = Console(force_terminal=True, record=True, soft_wrap=True, redirect=True)
+    text = "\033[92mfuture is green!\033[0m"
+    console.print(text)
+    text_result = console.export_text(clear=False)
+    assert "future is green!" in text_result
+    html_result = console.export_html()
+    assert "#00ff00" in html_result
+
+
+if __name__ == "__main__":
+    test_console_print_ansi()
