@@ -83,7 +83,7 @@ class Console(rich_console.Console):
         # Currently rich is unable to render ANSI escapes with print so if
         # we detect their presence, we decode them.
         # https://github.com/willmcgugan/rich/discussions/404
-        if "\033" in args[0]:
+        if isinstance(args[0], str) and "\033" in args[0]:
             text = format(*args) + "\n"
             decoder = AnsiDecoder()
             args = list(decoder.decode(text))  # type: ignore
