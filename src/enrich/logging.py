@@ -51,8 +51,9 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
         if self.show_level:
             if not isinstance(level, Text):
                 level = Text(level)
-            if len(level) < 8:
-                level += " " * (8 - len(level))
+            # CRITICAL is the longest identifier from default set.
+            if len(level) < 9:
+                level += " " * (9 - len(level))
             result += level
 
         for elem in renderables:
