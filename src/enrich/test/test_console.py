@@ -1,7 +1,7 @@
 """Tests for rich module."""
 import sys
 
-from enrich.console import Console
+from enrich.console import Console, should_do_markup
 
 
 def test_rich_console_ex() -> None:
@@ -50,6 +50,36 @@ def test_console_print_ansi() -> None:
     assert "future is green!" in text_result
     html_result = console.export_html()
     assert "#00ff00" in html_result
+
+
+def test_markup_detection_pycolors0(monkeypatch):
+    """Assure PY_COLORS=0 disables markup."""
+    monkeypatch.setenv("PY_COLORS", "0")
+    assert not should_do_markup()
+
+
+def test_markup_detection_pycolors1(monkeypatch):
+    """Assure PY_COLORS=1 enables markup."""
+    monkeypatch.setenv("PY_COLORS", "1")
+    assert should_do_markup()
+
+
+def test_markup_detection_tty_yes(mocker):
+    """Assures TERM=xterm enables markup."""
+    mocker.patch("sys.stdout.isatty", return_value=True)
+    mocker.patch("os.environ", {"TERM": "xterm"})
+    assert should_do_markup()
+    mocker.resetall()
+    mocker.stopall()
+
+
+def test_markup_detection_tty_no(mocker):
+    """Assures that if no tty is reported we disable markup."""
+    mocker.patch("os.environ", {})
+    mocker.patch("sys.stdout.isatty", return_value=False)
+    assert not should_do_markup()
+    mocker.resetall()
+    mocker.stopall()
 
 
 if __name__ == "__main__":
