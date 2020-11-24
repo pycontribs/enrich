@@ -50,20 +50,17 @@ class FileProxy(io.TextIOBase):
 
 
 class Console(rich_console.Console):
-    """Extends rich Console class.
+    """Extends rich Console class."""
 
-    redirect: True
-    soft_wrap: False
-    """
-
-    def __init__(self, *args: str, **kwargs: Any) -> None:
-        self.redirect = kwargs.get("redirect", False)
-        if "redirect" in kwargs:
-            del kwargs["redirect"]
-
-        self.soft_wrap = kwargs.get("soft_wrap", False)
-        if "soft_wrap" in kwargs:
-            del kwargs["soft_wrap"]
+    def __init__(
+        self, *args: str, redirect: bool = True, soft_wrap: bool = True, **kwargs: Any
+    ) -> None:
+        """
+        enrich console does soft-wrapping by default and this diverge from
+        original rich console which does not, creating hard-wraps instead.
+        """
+        self.redirect = redirect
+        self.soft_wrap = soft_wrap
 
         super().__init__(*args, **kwargs)
         self.extended = True
