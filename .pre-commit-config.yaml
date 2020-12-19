@@ -52,13 +52,13 @@ repos:
         additional_dependencies:
           - pytest>=6.1.2
           - packaging
-          - rich>=9.2.0
+          - rich>=9.5.1
   - repo: https://github.com/pre-commit/mirrors-pylint
     rev: v2.6.0
     hooks:
       - id: pylint
         additional_dependencies:
           - pytest>=6.1.2
-          - rich>=9.2.0
+          - rich>=9.5.1
           - typing
           - typing-extensions
