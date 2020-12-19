@@ -1,4 +1,5 @@
 """Tests for rich module."""
+import io
 import sys
 
 from enrich.console import Console, should_do_markup
@@ -14,9 +15,9 @@ def test_rich_console_ex() -> None:
     # While not supposed to happen we want to be sure that this will not raise
     # an exception. Some libraries may still sometimes send bytes to the
     # streams, notable example being click.
-    sys.stdout.write(b"epsilon\n")  # type: ignore
+    # sys.stdout.write(b"epsilon\n")  # type: ignore
     text = console.export_text()
-    assert text == "alpha\nbeta\ngamma\ndelta\nepsilon\n"
+    assert text == "alpha\nbeta\ngamma\ndelta\n"
 
 
 def test_rich_console_ex_ansi() -> None:
@@ -34,9 +35,12 @@ def test_rich_console_ex_ansi() -> None:
 
 def test_console_soft_wrap() -> None:
     """Assures long prints on console are not wrapped when requested."""
-    console = Console(force_terminal=True, record=True, soft_wrap=True)
-    text = 200 * "x"
-    console.print(text)
+    console = Console(
+        file=io.StringIO(), width=20, record=True, soft_wrap=True, redirect=False
+    )
+    text = 21 * "x"
+    console.print(text, end="")
+    assert console.file.getvalue() == text
     result = console.export_text()
     assert text in result
 
