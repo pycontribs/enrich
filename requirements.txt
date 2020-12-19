@@ -1,3 +1,0 @@
-# used only to expose dependency to github dependabot, effectively used
-# requiremetns are inside setup.cfg
-rich
