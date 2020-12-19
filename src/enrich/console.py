@@ -32,8 +32,10 @@ class Console(rich_console.Console):
         self.extended = True
 
         if self.redirect:
-            sys.stdout = FileProxy(self, sys.stdout)  # type: ignore
-            sys.stderr = FileProxy(self, sys.stderr)  # type: ignore
+            if not hasattr(sys.stdout, "rich_proxied_file"):
+                sys.stdout = FileProxy(self, sys.stdout)  # type: ignore
+            if not hasattr(sys.stderr, "rich_proxied_file"):
+                sys.stderr = FileProxy(self, sys.stderr)  # type: ignore
 
     # https://github.com/python/mypy/issues/4441
     def print(self, *args, **kwargs) -> None:  # type: ignore
