@@ -23,7 +23,7 @@ def strip_ansi_escape(text: Union[str, bytes]) -> str:
 
 
 @pytest.fixture(name="rich_logger")
-def rich_logger_fixture() -> Tuple[logging.Logger, logging.Handler]:
+def rich_logger_fixture() -> Tuple[logging.Logger, RichHandler]:
     """Returns tuple with logger and handler to be tested."""
     rich_handler = RichHandler(
         console=Console(
@@ -44,7 +44,7 @@ def rich_logger_fixture() -> Tuple[logging.Logger, logging.Handler]:
     return (rich_log, rich_handler)
 
 
-def test_logging(rich_logger) -> None:
+def test_logging(rich_logger: Tuple[logging.Logger, RichHandler]) -> None:
     """Test that logger does not wrap."""
 
     (logger, rich_handler) = rich_logger
@@ -53,7 +53,7 @@ def test_logging(rich_logger) -> None:
     logger.error("%s %s", text, 123)
 
     # verify that the long text was not wrapped
-    output = strip_ansi_escape(rich_handler.console.file.getvalue())
+    output = strip_ansi_escape(rich_handler.console.file.getvalue())  # type: ignore
     assert text in output
     assert "ERROR" in output
     assert "\n" not in output[:-1]

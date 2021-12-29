@@ -2,6 +2,9 @@
 import io
 import sys
 
+import pytest
+from pytest_mock import MockFixture
+
 from enrich.console import Console, should_do_markup
 
 
@@ -40,7 +43,7 @@ def test_console_soft_wrap() -> None:
     )
     text = 21 * "x"
     console.print(text, end="")
-    assert console.file.getvalue() == text
+    assert console.file.getvalue() == text  # type: ignore
     result = console.export_text()
     assert text in result
 
@@ -56,19 +59,21 @@ def test_console_print_ansi() -> None:
     assert "#00ff00" in html_result
 
 
-def test_markup_detection_pycolors0(monkeypatch):
+def test_markup_detection_pycolors0() -> None:
     """Assure PY_COLORS=0 disables markup."""
-    monkeypatch.setenv("PY_COLORS", "0")
-    assert not should_do_markup()
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setenv("PY_COLORS", "0")
+        assert not should_do_markup()
 
 
-def test_markup_detection_pycolors1(monkeypatch):
+def test_markup_detection_pycolors1() -> None:
     """Assure PY_COLORS=1 enables markup."""
-    monkeypatch.setenv("PY_COLORS", "1")
-    assert should_do_markup()
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setenv("PY_COLORS", "1")
+        assert should_do_markup()
 
 
-def test_markup_detection_tty_yes(mocker):
+def test_markup_detection_tty_yes(mocker: MockFixture) -> None:
     """Assures TERM=xterm enables markup."""
     mocker.patch("sys.stdout.isatty", return_value=True)
     mocker.patch("os.environ", {"TERM": "xterm"})
@@ -77,7 +82,7 @@ def test_markup_detection_tty_yes(mocker):
     mocker.stopall()
 
 
-def test_markup_detection_tty_no(mocker):
+def test_markup_detection_tty_no(mocker: MockFixture) -> None:
     """Assures that if no tty is reported we disable markup."""
     mocker.patch("os.environ", {})
     mocker.patch("sys.stdout.isatty", return_value=False)
