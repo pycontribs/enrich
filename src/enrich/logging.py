@@ -1,6 +1,6 @@
 """Implements enriched RichHandler"""
 from datetime import datetime
-from typing import TYPE_CHECKING, Iterable, Optional
+from typing import TYPE_CHECKING, Any, Iterable, Optional
 
 from rich.logging import RichHandler as OriginalRichHandler
 from rich.text import Text, TextType
@@ -74,7 +74,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
 class RichHandler(OriginalRichHandler):
     """Enriched handler that does not wrap."""
 
-    def __init__(self, *args, **kwargs):  # type: ignore
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         # RichHandler constructor does not allow custom renderer
         # https://github.com/willmcgugan/rich/issues/438
@@ -82,4 +82,4 @@ class RichHandler(OriginalRichHandler):
             show_time=kwargs.get("show_time", False),
             show_level=kwargs.get("show_level", True),
             show_path=kwargs.get("show_path", False),
-        )
+        )  # type: ignore

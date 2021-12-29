@@ -50,7 +50,8 @@ repos:
         entry: mypy src/
         pass_filenames: false
         additional_dependencies:
-          - pytest>=6.1.2
+          - pytest>=6.2.5
+          - pytest-mock>=3.6.1
           - packaging
           - rich>=9.5.1
   - repo: https://github.com/pre-commit/mirrors-pylint
@@ -58,7 +59,8 @@ repos:
     hooks:
       - id: pylint
         additional_dependencies:
-          - pytest>=6.1.2
+          - pytest>=6.2.4
+          - pytest-mock>=3.6.1
           - rich>=9.5.1
           - typing
           - typing-extensions
