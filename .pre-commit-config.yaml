@@ -53,7 +53,7 @@ repos:
           - pytest>=6.2.5
           - pytest-mock>=3.6.1
           - packaging
-          - rich>=9.5.1
+          - rich>=11.0.0
   - repo: https://github.com/pre-commit/mirrors-pylint
     rev: v3.0.0a4
     hooks:
@@ -61,6 +61,6 @@ repos:
         additional_dependencies:
           - pytest>=6.2.4
           - pytest-mock>=3.6.1
-          - rich>=9.5.1
+          - rich>=11.0.0
           - typing
           - typing-extensions
