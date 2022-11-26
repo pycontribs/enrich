@@ -1,14 +1,19 @@
+---
 name: tox
 
 on:
-  create:  # is used for publishing to PyPI and TestPyPI
-    tags:  # any tag regardless of its name, no branches
-  push:  # only publishes pushes to the main branch to TestPyPI
-    branches:  # any integration branch but not tag
-      - $default-branch
-    tags-ignore:
-      - "**"
+  push: # only publishes pushes to the main branch to TestPyPI
+    branches: # any integration branch but not tag
+      - "main"
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 1 # tox, pytest, ansible-lint
+  PY_COLORS: 1
 
 jobs:
   tox:
@@ -32,6 +37,7 @@ jobs:
         - 3.8
         - 3.9
         - "3.10"
+        - "3.11"
         include:
         - os: ubuntu-latest
           python-version: 3.8
@@ -49,42 +55,31 @@ jobs:
           python-version: "3.10"
           tox_env: py310
         - os: ubuntu-latest
-          python-version: "~3.11.0-0" # see https://github.com/actions/setup-python/issues/213#issuecomment-1146676713
+          python-version: "3.11"
           tox_env: py311
         - os: macOS-latest
           python-version: 3.8
           tox_env: py38
         - os: macOS-latest
-          python-version: "~3.11.0-0"
+          python-version: "3.11"
           tox_env: py311
-
-    env:
-      TOX_PARALLEL_NO_SPINNER: 1
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0  # we need full depth and tags for versioning
     - name: Set up stock Python ${{ matrix.python-version }} from GitHub
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+        cache: pip
     - name: Log the selected Python version info (${{ matrix.python-version }})
       run: |
         python --version --version
         which python
-    - name: Pip cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ env.PY_SHA256 }}-${{ hashFiles('setup.cfg') }}-${{ hashFiles('tox.ini') }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pytest.ini') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          ${{ runner.os }}-
     - name: Install tox
       run: |
           python -m pip install -U pip
-          pip install tox
+          pip install "tox>=4.0.0b2"
     - name: Run tox -e ${{ matrix.tox_env }}
       run: tox -e ${{ matrix.tox_env }}
 
