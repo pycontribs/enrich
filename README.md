@@ -13,7 +13,7 @@ from enrich.console import Console
 import sys
 
 console = Console(
-    redirect=True,  # <-- not supported by rich.cosole.Console
+    redirect=True,  # <-- not supported by rich.console.Console
     record=True)
 sys.write("foo")
 
