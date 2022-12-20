@@ -1,16 +1,86 @@
 [build-system]
 requires = [
-  "setuptools >= 45",
+  # Needed for PEP 621 support
+  "setuptools >= 61.0",
   "setuptools_scm[toml] >= 7.0.0",
 ]
 build-backend = "setuptools.build_meta"
 
-[tool.black]
-skip-string-normalization = false
+[project]
+# https://peps.python.org/pep-0621/#readme
+requires-python = ">=3.8"
+dynamic = ["version"]
+name = "enrich"
+description = "enrich"
+readme = "README.md"
+authors = [{ "name" = "Sorin Sbarnea", "email" = "sorin.sbarnea@gmail.com" }]
+maintainers = [
+  { "name" = "Sorin Sbarnea", "email" = "sorin.sbarnea@gmail.com" }
+]
+license = { text = "MIT" }
+classifiers = [
+  # https://pypi.org/classifiers/
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python",
+  "Topic :: System :: Systems Administration",
+  "Topic :: Utilities",
+]
+keywords = ["console", "logging", "rich"]
+dependencies = ["rich >= 9.5.1, < 12.5.0"]
+
+[project.urls]
+homepage = "https://github.com/pycontribs/enrich"
+repository = "https://github.com/pycontribs/enrich"
+changelog = "https://github.com/pycontribs/enrich/releases"
+
+[project.optional-dependencies]
+test = [
+  "pytest-cov>=2.7.1",
+  "pytest-mock>=3.3.1",
+  "pytest-plus",
+  "pytest-xdist>=1.29.0",
+  "pytest>=5.4.0",
+]
 
 [tool.isort]
 profile = "black"
 known_first_party = "subprocess_tee"
+
+[tool.mypy]
+python_version = 3.8
+color_output = true
+error_summary = true
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest]
+addopts = "--doctest-modules --durations 10 --durations-min=3 --color=yes"
+doctest_optionflags = ["ALLOW_UNICODE", "ELLIPSIS"]
+norecursedirs = "dist doc build .tox .eggs"
+filterwarnings = [
+  # treat warnings as errors unless we add them below
+  "error"
+  # ignore::UserWarning
+]
 
 [tool.setuptools_scm]
 local_scheme = "no-local-version"

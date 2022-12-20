@@ -1,9 +1,19 @@
 ---
 exclude: |
-    (?x)(
-        ^docs/conf.py$
-    )
+  (?x)(
+      ^docs/conf.py$
+  )
 repos:
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    # keep it before yamllint
+    rev: v3.0.0-alpha.4
+    hooks:
+      - id: prettier
+        always_run: true
+        additional_dependencies:
+          - prettier
+          - prettier-plugin-toml
+          - prettier-plugin-sort-json
   - repo: https://github.com/PyCQA/isort
     rev: v5.11.3
     hooks:
@@ -46,16 +56,14 @@ repos:
     hooks:
       - id: mypy
         # empty args needed in order to match mypy cli behavior
-        args: []
-        entry: mypy --strict src/
-        pass_filenames: false
+        args: [--strict]
         additional_dependencies:
           - pytest>=6.2.5
           - pytest-mock>=3.6.1
           - packaging
           - rich>=11.0.0
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v3.0.0a5
+  - repo: https://github.com/pycqa/pylint
+    rev: v2.15.9
     hooks:
       - id: pylint
         # see https://github.com/PyCQA/pylint/issues/6535
