@@ -37,7 +37,6 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
         line_no: Optional[int] = None,
         link_path: Optional[str] = None,
     ) -> Text:
-
         result = Text()
         if self.show_time:
             if log_time is None:
