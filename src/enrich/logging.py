@@ -19,11 +19,13 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
         show_level: bool = False,
         show_path: bool = True,
         time_format: str = "[%x %X]",
+        omit_repeated_times: bool = True,
     ) -> None:
         self.show_time = show_time
         self.show_level = show_level
         self.show_path = show_path
         self.time_format = time_format
+        self.omit_repeated_times = omit_repeated_times
         self._last_time: Optional[str] = None
 
     def __call__(  # pylint: disable=too-many-arguments
@@ -42,7 +44,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
             if log_time is None:
                 log_time = datetime.now()
             log_time_display = log_time.strftime(time_format or self.time_format) + " "
-            if log_time_display == self._last_time:
+            if self.omit_repeated_times and log_time_display == self._last_time:
                 result += Text(" " * len(log_time_display))
             else:
                 result += Text(log_time_display)
@@ -81,4 +83,5 @@ class RichHandler(OriginalRichHandler):
             show_time=kwargs.get("show_time", False),
             show_level=kwargs.get("show_level", True),
             show_path=kwargs.get("show_path", False),
+            omit_repeated_times=kwargs.get("omit_repeated_times", True),
         )  # type: ignore
