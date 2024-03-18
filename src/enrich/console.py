@@ -1,4 +1,5 @@
 """Module that helps integrating with rich library."""
+
 import os
 import sys
 from typing import Any, TextIO

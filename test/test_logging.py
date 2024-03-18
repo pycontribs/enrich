@@ -1,4 +1,5 @@
 """Tests related to enriched RichHandler"""
+
 import io
 import logging
 import re

@@ -1,4 +1,5 @@
 """Tests for rich module."""
+
 import io
 import sys
 
