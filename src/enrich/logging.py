@@ -1,4 +1,5 @@
 """Implements enriched RichHandler"""
+
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Iterable, Optional
 
