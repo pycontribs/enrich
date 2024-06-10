@@ -1,4 +1,5 @@
 """Tests for rich module."""
+
 import io
 import sys
 
@@ -43,6 +44,7 @@ def test_console_soft_wrap() -> None:
     )
     text = 21 * "x"
     console.print(text, end="")
+    # pylint: disable=no-member
     assert console.file.getvalue() == text  # type: ignore
     result = console.export_text()
     assert text in result
