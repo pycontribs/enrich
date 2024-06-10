@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 class FluidLogRender:  # pylint: disable=too-few-public-methods
     """Renders log by not using columns and avoiding any wrapping."""
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         show_time: bool = False,
