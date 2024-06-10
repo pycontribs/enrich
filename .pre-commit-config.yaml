@@ -4,9 +4,9 @@ exclude: |
       ^docs/conf.py$
   )
 repos:
-  - repo: https://github.com/pre-commit/mirrors-prettier
+  - repo: https://github.com/pycontribs/mirrors-prettier
     # keep it before yamllint
-    rev: v4.0.0-alpha.8
+    rev: v3.3.1
     hooks:
       - id: prettier
         always_run: true
