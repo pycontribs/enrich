@@ -1,4 +1,5 @@
 """Tests related to enriched RichHandler"""
+
 from __future__ import annotations
 
 import io
@@ -37,7 +38,10 @@ def rich_logger_fixture() -> tuple[logging.Logger, RichHandler]:
     )
 
     logging.basicConfig(
-        level="NOTSET", format="%(message)s", datefmt="[DATE]", handlers=[rich_handler],
+        level="NOTSET",
+        format="%(message)s",
+        datefmt="[DATE]",
+        handlers=[rich_handler],
     )
     rich_log = logging.getLogger("rich")
     rich_log.addHandler(rich_handler)

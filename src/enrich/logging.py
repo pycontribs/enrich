@@ -1,4 +1,5 @@
 """Implements enriched RichHandler."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -16,7 +17,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
     """Renders log by not using columns and avoiding any wrapping."""
 
     # pylint: disable=too-many-arguments
-    def __init__( # noqa: PLR0913
+    def __init__(  # noqa: PLR0913
         self,
         show_time: bool = False,
         show_level: bool = False,
@@ -34,7 +35,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
 
     def __call__(  # pylint: disable=too-many-arguments # noqa: PLR0913
         self,
-        console: Console, # noqa: ARG002
+        console: Console,  # noqa: ARG002
         renderables: Iterable[ConsoleRenderable],
         log_time: datetime | None = None,
         time_format: str | None = None,
@@ -58,7 +59,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
             if not isinstance(level, Text):
                 level = Text(level)
             # CRITICAL is the longest identifier from default set.
-            if len(level) < 9: # noqa: PLR2004
+            if len(level) < 9:  # noqa: PLR2004
                 level += " " * (9 - len(level))
             result += level
 
@@ -68,7 +69,8 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
         if self.show_path and path:
             path_text = Text(" ", style="repr.filename")
             path_text.append(
-                path, style=f"link file://{link_path}" if link_path else "",
+                path,
+                style=f"link file://{link_path}" if link_path else "",
             )
             if line_no:
                 path_text.append(f":{line_no}")

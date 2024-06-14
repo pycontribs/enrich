@@ -12,7 +12,7 @@ def test_rich_console_ex() -> None:
     """Validate that ConsoleEx can capture output from print() calls."""
     console = Console(record=True, redirect=True)
     console.print("alpha")
-    print("beta") # noqa: T201
+    print("beta")  # noqa: T201
     sys.stdout.write("gamma\n")
     sys.stderr.write("delta\n")
     # While not supposed to happen we want to be sure that this will not raise
@@ -25,7 +25,7 @@ def test_rich_console_ex() -> None:
 
 def test_rich_console_ex_ansi() -> None:
     """Validate that ANSI sent to sys.stdout does not become garbage in record."""
-    print() # noqa: T201
+    print()  # noqa: T201
     console = Console(force_terminal=True, record=True, redirect=True)
     console.print("[green]this from Console.print()[/green]", style="red")
 
@@ -39,7 +39,11 @@ def test_rich_console_ex_ansi() -> None:
 def test_console_soft_wrap() -> None:
     """Assures long prints on console are not wrapped when requested."""
     console = Console(
-        file=io.StringIO(), width=20, record=True, soft_wrap=True, redirect=False,
+        file=io.StringIO(),
+        width=20,
+        record=True,
+        soft_wrap=True,
+        redirect=False,
     )
     text = 21 * "x"
     console.print(text, end="")
