@@ -73,6 +73,26 @@ filterwarnings = [
   # ignore::UserWarning
 ]
 
+[tool.ruff]
+target-version = "py38"
+# Same as Black.
+line-length = 88
+
+lint.ignore = [
+  "D203", # incompatible with D211
+  "D213", # incompatible with D212
+  "E501", # we use black
+  "ANN",
+  "FBT001",
+  "FBT002",
+  "FBT003",
+  "PGH",
+]
+lint.select = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"test/**/*.py" = ["D", "ERA", "S"]
+
 [tool.setuptools.dynamic]
 dependencies = { file = [".config/requirements.in"] }
 optional-dependencies.test = { file = [".config/requirements-test.in"] }

@@ -1,17 +1,16 @@
 """Tests related to enriched RichHandler"""
+from __future__ import annotations
 
 import io
 import logging
 import re
-from typing import Tuple, Union
 
 import pytest
-
 from enrich.console import Console
 from enrich.logging import RichHandler
 
 
-def strip_ansi_escape(text: Union[str, bytes]) -> str:
+def strip_ansi_escape(text: str | bytes) -> str:
     """Remove all ANSI escapes from string or bytes.
 
     If bytes is passed instead of string, it will be converted to string
@@ -24,7 +23,7 @@ def strip_ansi_escape(text: Union[str, bytes]) -> str:
 
 
 @pytest.fixture(name="rich_logger")
-def rich_logger_fixture() -> Tuple[logging.Logger, RichHandler]:
+def rich_logger_fixture() -> tuple[logging.Logger, RichHandler]:
     """Returns tuple with logger and handler to be tested."""
     rich_handler = RichHandler(
         console=Console(
@@ -38,16 +37,15 @@ def rich_logger_fixture() -> Tuple[logging.Logger, RichHandler]:
     )
 
     logging.basicConfig(
-        level="NOTSET", format="%(message)s", datefmt="[DATE]", handlers=[rich_handler]
+        level="NOTSET", format="%(message)s", datefmt="[DATE]", handlers=[rich_handler],
     )
     rich_log = logging.getLogger("rich")
     rich_log.addHandler(rich_handler)
     return (rich_log, rich_handler)
 
 
-def test_logging(rich_logger: Tuple[logging.Logger, RichHandler]) -> None:
+def test_logging(rich_logger: tuple[logging.Logger, RichHandler]) -> None:
     """Test that logger does not wrap."""
-
     (logger, rich_handler) = rich_logger
 
     text = 10 * "x"  # a long text that would likely wrap on a normal console
