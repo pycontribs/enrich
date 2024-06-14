@@ -6,7 +6,7 @@ exclude: |
 repos:
   - repo: https://github.com/pycontribs/mirrors-prettier
     # keep it before yamllint
-    rev: v3.3.1
+    rev: v3.3.2
     hooks:
       - id: prettier
         always_run: true
@@ -14,35 +14,16 @@ repos:
           - prettier
           - prettier-plugin-toml
           - prettier-plugin-sort-json
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        language_version: python3
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
     rev: v4.6.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: mixed-line-ending
-      - id: check-byte-order-marker
+      - id: fix-byte-order-marker
       - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: debug-statements
-        language_version: python3
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - pydocstyle>=5.1.1
-          - flake8-absolute-import
-          - flake8-black>=0.1.1
-          - flake8-docstrings>=1.5.0
         language_version: python3
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.35.1
@@ -51,6 +32,16 @@ repos:
         files: \.(yaml|yml)$
         types: [file, yaml]
         entry: yamllint --strict
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.4.7"
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        language_version: python3
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.0
     hooks:

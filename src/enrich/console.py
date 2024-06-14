@@ -13,8 +13,9 @@ class Console(rich_console.Console):
     """Extends rich Console class."""
 
     def __init__(self, *args: str, redirect: bool = True, **kwargs: Any) -> None:
-        """
-        enrich console does soft-wrapping by default and this diverge from
+        """Enrich constructor.
+
+        Enrich console does soft-wrapping by default and this diverge from
         original rich console which does not, creating hard-wraps instead.
         """
         self.redirect = redirect
@@ -26,7 +27,7 @@ class Console(rich_console.Console):
         # heuristic to make an informed decision.
         if "force_terminal" not in kwargs:
             kwargs["force_terminal"] = should_do_markup(
-                stream=kwargs.get("file", sys.stdout)
+                stream=kwargs.get("file", sys.stdout),
             )
 
         super().__init__(*args, **kwargs)
