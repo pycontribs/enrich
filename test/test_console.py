@@ -5,7 +5,7 @@ import sys
 
 import pytest
 from enrich.console import Console, should_do_markup
-from pytest_mock import MockFixture # pylint: disable=wrong-import-order
+from pytest_mock import MockFixture  # pylint: disable=wrong-import-order
 
 
 def test_rich_console_ex() -> None:
