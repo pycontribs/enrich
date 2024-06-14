@@ -1,15 +1,14 @@
 [build-system]
 requires = [
-  # Needed for PEP 621 support
-  "setuptools >= 61.0",
-  "setuptools_scm[toml] >= 7.0.0",
+  "setuptools >= 65.3.0", # required by pyproject+setuptools_scm integration and editable installs
+  "setuptools_scm[toml] >= 7.0.5", # required for "no-local-version" scheme
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 # https://peps.python.org/pep-0621/#readme
 requires-python = ">=3.8"
-dynamic = ["version"]
+dynamic = ["version", "dependencies", "optional-dependencies"]
 name = "enrich"
 description = "enrich"
 readme = "README.md"
@@ -40,21 +39,13 @@ classifiers = [
   "Topic :: Utilities",
 ]
 keywords = ["console", "logging", "rich"]
-dependencies = ["rich >= 10.0.0, < 12.5.0"]
+
 
 [project.urls]
 homepage = "https://github.com/pycontribs/enrich"
 repository = "https://github.com/pycontribs/enrich"
 changelog = "https://github.com/pycontribs/enrich/releases"
 
-[project.optional-dependencies]
-test = [
-  "pytest-cov>=2.7.1",
-  "pytest-mock>=3.3.1",
-  "pytest-plus",
-  "pytest-xdist>=1.29.0",
-  "pytest>=5.4.0",
-]
 
 [tool.isort]
 profile = "black"
@@ -82,5 +73,21 @@ filterwarnings = [
   # ignore::UserWarning
 ]
 
+[tool.setuptools.dynamic]
+dependencies = { file = [".config/requirements.in"] }
+optional-dependencies.test = { file = [".config/requirements-test.in"] }
+
 [tool.setuptools_scm]
 local_scheme = "no-local-version"
+tag_regex = "^(?P<prefix>v)?(?P<version>[0-9.]+)(?P<suffix>.*)?$"
+write_to = "src/enrich/_version.py"
+# To prevent accidental pick of mobile version tags such 'v6'
+git_describe_command = [
+  "git",
+  "describe",
+  "--dirty",
+  "--tags",
+  "--long",
+  "--match",
+  "v*.*",
+]
