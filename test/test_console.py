@@ -4,29 +4,28 @@ import io
 import sys
 
 import pytest
-from pytest_mock import MockFixture
-
 from enrich.console import Console, should_do_markup
+from pytest_mock import MockFixture  # pylint: disable=wrong-import-order
 
 
 def test_rich_console_ex() -> None:
     """Validate that ConsoleEx can capture output from print() calls."""
     console = Console(record=True, redirect=True)
     console.print("alpha")
-    print("beta")
+    print("beta")  # noqa: T201
     sys.stdout.write("gamma\n")
     sys.stderr.write("delta\n")
     # While not supposed to happen we want to be sure that this will not raise
     # an exception. Some libraries may still sometimes send bytes to the
     # streams, notable example being click.
-    # sys.stdout.write(b"epsilon\n")  # type: ignore
+    # sys.stdout.write(b"epsilon\n")
     text = console.export_text()
     assert text == "alpha\nbeta\ngamma\ndelta\n"
 
 
 def test_rich_console_ex_ansi() -> None:
     """Validate that ANSI sent to sys.stdout does not become garbage in record."""
-    print()
+    print()  # noqa: T201
     console = Console(force_terminal=True, record=True, redirect=True)
     console.print("[green]this from Console.print()[/green]", style="red")
 
@@ -40,7 +39,11 @@ def test_rich_console_ex_ansi() -> None:
 def test_console_soft_wrap() -> None:
     """Assures long prints on console are not wrapped when requested."""
     console = Console(
-        file=io.StringIO(), width=20, record=True, soft_wrap=True, redirect=False
+        file=io.StringIO(),
+        width=20,
+        record=True,
+        soft_wrap=True,
+        redirect=False,
     )
     text = 21 * "x"
     console.print(text, end="")
