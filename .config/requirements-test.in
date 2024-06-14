@@ -1,0 +1,5 @@
+pytest-cov>=2.7.1
+pytest-mock>=3.3.1
+pytest-plus
+pytest-xdist>=1.29.0
+pytest>=5.4.0
