@@ -6,7 +6,7 @@ exclude: |
 repos:
   - repo: https://github.com/pycontribs/mirrors-prettier
     # keep it before yamllint
-    rev: v3.3.2
+    rev: v3.3.3
     hooks:
       - id: prettier
         always_run: true
@@ -15,7 +15,7 @@ repos:
           - prettier-plugin-toml
           - prettier-plugin-sort-json
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -33,17 +33,17 @@ repos:
         types: [file, yaml]
         entry: yamllint --strict
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.4.10"
+    rev: "v0.7.0"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 24.10.0
     hooks:
       - id: black
         language_version: python3
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
+    rev: v1.12.1
     hooks:
       - id: mypy
         # empty args needed in order to match mypy cli behavior
@@ -54,7 +54,7 @@ repos:
           - packaging
           - rich>=11.0.0
   - repo: https://github.com/pycqa/pylint
-    rev: v3.2.3
+    rev: v3.3.1
     hooks:
       - id: pylint
         # see https://github.com/PyCQA/pylint/issues/6535
