@@ -7,6 +7,7 @@ import logging
 import re
 
 import pytest
+
 from enrich.console import Console
 from enrich.logging import RichHandler
 
