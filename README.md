@@ -39,7 +39,7 @@ console.print(...)  # no longer need to pass soft_wrap to each print
 
 Extends Rich Console to detect if original text already had ANSI escapes and
 decodes it before processing it. This solves the case where printing
-output captured from other processes that contained ANSI escapes would brake.
+output captured from other processes that contained ANSI escapes would break.
 [upstream-404](https://github.com/willmcgugan/rich/discussions/404)
 
 ## Soft-wrapping logger
