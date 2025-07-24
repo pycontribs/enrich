@@ -56,10 +56,10 @@ def test_console_soft_wrap() -> None:
 def test_console_print_ansi() -> None:
     """Validates that Console.print() with ANSI does not make break them."""
     console = Console(force_terminal=True, record=True, soft_wrap=True, redirect=True)
-    text = "\033[92mfuture is green!\033[0m"
+    text = "\033[92mfuture is green!\033[0m\nwowsers!"
     console.print(text)
     text_result = console.export_text(clear=False)
-    assert "future is green!" in text_result
+    assert "future is green!\nwowsers!" in text_result
     html_result = console.export_html()
     assert "#00ff00" in html_result
 
