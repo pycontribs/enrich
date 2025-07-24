@@ -6,6 +6,7 @@ from typing import Any, TextIO
 
 import rich.console as rich_console
 from rich.ansi import AnsiDecoder
+from rich.containers import Lines
 from rich.file_proxy import FileProxy
 
 
@@ -48,8 +49,8 @@ class Console(rich_console.Console):
         if args and isinstance(args[0], str) and "\033" in args[0]:
             text = format(*args) + "\n"
             decoder = AnsiDecoder()
-            args = list(decoder.decode(text))  # type: ignore
-        super().print(*args, **kwargs)
+            args = Lines(decoder.decode(text))  # type: ignore[assignment]
+        super().print(args, **kwargs)
 
 
 # Based on Ansible implementation
