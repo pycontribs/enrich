@@ -50,7 +50,9 @@ class Console(rich_console.Console):
             text = format(*args) + "\n"
             decoder = AnsiDecoder()
             args = Lines(decoder.decode(text))  # type: ignore[assignment]
-        super().print(args, **kwargs)
+            super().print(args, **kwargs)
+        else:
+            super().print(*args, **kwargs)
 
 
 # Based on Ansible implementation
