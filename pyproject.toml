@@ -62,7 +62,7 @@ warn_redundant_casts = true
 warn_return_any = true
 warn_unused_configs = true
 
-[tool.pytest]
+[tool.pytest.ini_options]
 addopts = "--doctest-modules --durations 10 --durations-min=3 --color=yes"
 doctest_optionflags = ["ALLOW_UNICODE", "ELLIPSIS"]
 norecursedirs = "dist doc build .tox .eggs"
