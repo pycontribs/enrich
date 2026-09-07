@@ -7,6 +7,7 @@ import logging
 import re
 
 import pytest
+
 from enrich.console import Console
 from enrich.logging import RichHandler
 
@@ -50,7 +51,7 @@ def rich_logger_fixture() -> tuple[logging.Logger, RichHandler]:
 
 def test_logging(rich_logger: tuple[logging.Logger, RichHandler]) -> None:
     """Test that logger does not wrap."""
-    (logger, rich_handler) = rich_logger
+    logger, rich_handler = rich_logger
 
     text = 10 * "x"  # a long text that would likely wrap on a normal console
     logger.error("%s %s", text, 123)
