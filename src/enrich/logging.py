@@ -19,7 +19,7 @@ class FluidLogRender:  # pylint: disable=too-few-public-methods
     """Renders log by not using columns and avoiding any wrapping."""
 
     # pylint: disable=too-many-arguments
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         show_time: bool = False,
         show_level: bool = False,
